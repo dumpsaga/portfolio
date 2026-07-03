@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SAME | The Red Protocol</title>
+  <title>Swapnil | Red Protocol</title>
   <style>
     /* -------------------------------------------------
-       VARIABLES & RESET
+       CORE VARIABLES & RESET
     ------------------------------------------------- */
     :root {
       --bg-deep: #050000;
-      --bg-panel: #0f0000;
-      --primary: #ff003c; /* Cyber Red */
-      --primary-dim: #990024;
-      --primary-glow: rgba(255, 0, 60, 0.6);
+      --bg-panel: #0a0000;
+      --primary: #ff003c; /* Neon Red */
+      --primary-dim: #80001e;
+      --primary-glow: rgba(255, 0, 60, 0.5);
       --text-main: #ffffff;
-      --text-muted: #a0a0a0;
+      --text-muted: #b0b0b0;
       --font-mono: 'Courier New', Courier, monospace;
       --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
@@ -37,14 +37,14 @@
     /* -------------------------------------------------
        BACKGROUND: RED BINARY RAIN
     ------------------------------------------------- */
-    .matrix-canvas {
+    #matrix-canvas {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       z-index: -1;
-      opacity: 0.15;
+      opacity: 0.12;
       pointer-events: none;
     }
 
@@ -57,119 +57,121 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      position: relative;
       padding: 2rem;
       text-align: center;
+      position: relative;
     }
 
-    /* THE LOGO: RED EYE / SYSTEM ICON */
-    .logo-wrapper {
-      position: relative;
-      width: 140px;
-      height: 140px;
+    /* CUSTOM LOGO: RED CYBER SKULL/EYE */
+    .logo-container {
+      width: 130px;
+      height: 130px;
       margin-bottom: 2rem;
-      animation: pulseRed 3s infinite ease-in-out;
+      position: relative;
+      animation: floatLogo 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 15px var(--primary-glow));
     }
 
     .logo-svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 0 15px var(--primary-glow));
+      overflow: visible;
     }
 
-    .logo-stroke {
+    .logo-path {
       fill: none;
       stroke: var(--primary);
-      stroke-width: 3;
+      stroke-width: 2.5;
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-dasharray: 1000;
       stroke-dashoffset: 1000;
-      animation: drawLogo 2s ease-out forwards;
+      animation: drawLogo 2.2s ease-out forwards;
     }
 
-    .logo-core {
+    .logo-fill {
       fill: var(--primary);
       opacity: 0;
-      animation: fadeInGlow 1s ease-out 2s forwards, pulseCore 2s infinite 2s;
+      animation: fillLogo 1s ease-out 2s forwards, pulseGlow 2s infinite 2.5s;
     }
 
     @keyframes drawLogo {
       to { stroke-dashoffset: 0; }
     }
 
-    @keyframes fadeInGlow {
-      to { opacity: 0.8; filter: drop-shadow(0 0 10px var(--primary)); }
+    @keyframes fillLogo {
+      to { opacity: 0.8; }
     }
 
-    @keyframes pulseRed {
-      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--primary-glow)); }
-      50% { transform: scale(1.05); filter: drop-shadow(0 0 25px var(--primary-glow)); }
+    @keyframes pulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 5px var(--primary)); opacity: 0.8; }
+      50% { filter: drop-shadow(0 0 20px var(--primary)); opacity: 1; }
     }
 
-    @keyframes pulseCore {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; filter: drop-shadow(0 0 20px var(--primary)); }
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
     }
 
     /* TYPOGRAPHY */
-    .owner-label {
+    .owner-tag {
       font-family: var(--font-mono);
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--primary);
-      letter-spacing: 4px;
+      letter-spacing: 3px;
       text-transform: uppercase;
       margin-bottom: 0.5rem;
-      opacity: 0.8;
+      opacity: 0.9;
     }
 
     .hero-title {
-      font-size: clamp(4rem, 10vw, 8rem);
+      font-size: clamp(3.5rem, 9vw, 7rem);
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: -2px;
       color: #fff;
       text-shadow: 0 0 20px var(--primary-glow), 0 0 40px var(--primary-dim);
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       position: relative;
     }
 
     .hero-title::after {
-      content: "SYSTEM: ONLINE";
+      content: "ACCESS GRANTED";
       position: absolute;
-      bottom: -20px;
+      bottom: -25px;
       left: 50%;
       transform: translateX(-50%);
       font-family: var(--font-mono);
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: var(--primary);
       letter-spacing: 2px;
       opacity: 0;
-      animation: slideUp 0.5s ease-out 1s forwards;
+      animation: slideUpFade 0.6s ease-out 1s forwards;
     }
 
-    @keyframes slideUp {
+    @keyframes slideUpFade {
       from { opacity: 0; transform: translateX(-50%) translateY(10px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
     .hero-subtitle {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: var(--text-muted);
       max-width: 600px;
       margin: 0 auto 3rem;
       font-family: var(--font-mono);
     }
 
-    /* GLITCH EFFECT ON HOVER */
-    .glitch-hover {
+    /* GLITCH EFFECT */
+    .glitch-text {
       position: relative;
       display: inline-block;
+      transition: color 0.3s;
     }
-    
-    .glitch-hover:hover {
-      animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+
+    .glitch-text:hover {
       color: var(--primary);
+      animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
     }
 
     @keyframes glitch {
@@ -182,21 +184,20 @@
     }
 
     /* -------------------------------------------------
-       FEATURES GRID (GLASSMORPHISM)
+       CARDS (GLASSMORPHISM)
     ------------------------------------------------- */
-    .grid-container {
+    .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
-      max-width: 1200px;
+      max-width: 1100px;
       margin: 0 auto 4rem;
-      padding: 0 2rem;
-      position: relative;
-      z-index: 2;
+      width: 100%;
+      padding: 0 1rem;
     }
 
     .card {
-      background: rgba(15, 0, 0, 0.7);
+      background: rgba(10, 0, 0, 0.7);
       border: 1px solid var(--primary-dim);
       border-radius: 12px;
       padding: 2rem;
@@ -219,7 +220,7 @@
     .card:hover {
       border-color: var(--primary);
       box-shadow: 0 0 30px rgba(255, 0, 60, 0.2);
-      transform: translateY(-5px);
+      transform: translateY(-6px);
     }
 
     .card:hover::before {
@@ -230,14 +231,13 @@
       font-size: 2rem;
       color: var(--primary);
       margin-bottom: 1rem;
-      display: inline-block;
     }
 
     .card h3 {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       margin-bottom: 0.8rem;
-      color: #fff;
       font-family: var(--font-mono);
+      color: #fff;
     }
 
     .card p {
@@ -248,12 +248,7 @@
     /* -------------------------------------------------
        CTA BUTTON
     ------------------------------------------------- */
-    .cta-wrapper {
-      margin-bottom: 4rem;
-    }
-
-    .btn-hack {
-      position: relative;
+    .cta-btn {
       padding: 1rem 3rem;
       font-size: 1.1rem;
       font-weight: 700;
@@ -265,26 +260,27 @@
       font-family: var(--font-mono);
       text-transform: uppercase;
       letter-spacing: 2px;
-      overflow: hidden;
-      transition: all 0.3s ease;
       box-shadow: 0 0 20px var(--primary-glow);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    .btn-hack:hover {
+    .cta-btn:hover {
       background: #fff;
       box-shadow: 0 0 40px #fff;
       color: var(--primary);
     }
 
-    .btn-hack::after {
+    .cta-btn::after {
       content: ">>";
       position: absolute;
       right: 15px;
-      opacity: 0.5;
+      opacity: 0.6;
       transition: 0.3s;
     }
 
-    .btn-hack:hover::after {
+    .cta-btn:hover::after {
       transform: translateX(5px);
       opacity: 1;
     }
@@ -306,77 +302,73 @@
        RESPONSIVE
     ------------------------------------------------- */
     @media (max-width: 768px) {
-      .hero-title { font-size: 3.5rem; }
-      .grid-container { grid-template-columns: 1fr; }
+      .hero-title { font-size: 3rem; }
+      .logo-container { width: 100px; height: 100px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Background Matrix Rain (Red) -->
-  <canvas class="matrix-canvas" id="matrix"></canvas>
+  <!-- Red Matrix Rain Background -->
+  <canvas id="matrix-canvas"></canvas>
 
   <section class="hero">
-    <!-- Custom Red Hacker Logo (SVG) -->
-    <div class="logo-wrapper">
+    <!-- Custom Animated Red Hacker Logo -->
+    <div class="logo-container">
       <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <!-- Outer Hexagon -->
-        <path class="logo-stroke" d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z" />
-        <!-- Inner Eye/Target -->
-        <circle class="logo-stroke" cx="50" cy="50" r="20" />
-        <circle class="logo-core" cx="50" cy="50" r="8" />
+        <path class="logo-path" d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z" />
+        <!-- Inner Target/Eye -->
+        <circle class="logo-path" cx="50" cy="50" r="22" />
+        <circle class="logo-fill" cx="50" cy="50" r="8" />
         <!-- Crosshairs -->
-        <path class="logo-stroke" d="M50 10 L50 30 M50 70 L50 90 M10 50 L30 50 M70 50 L90 50" />
+        <path class="logo-path" d="M50 10 L50 30 M50 70 L50 90 M10 50 L30 50 M70 50 L90 50" />
       </svg>
     </div>
 
-    <div class="owner-label">Owner: SAME</div>
-    <h1 class="hero-title glitch-hover">SAME</h1>
+    <div class="owner-tag">Owner: Swapnil</div>
+    <h1 class="hero-title glitch-text">SWAPNIL</h1>
     <p class="hero-subtitle">
-      Welcome to the Red World. <br>
-      <span style="color: var(--primary)">Unauthorized access is strictly prohibited.</span>
+      Welcome to the Red Protocol. <br>
+      <span style="color: var(--primary)">System Secure. No Green Lights.</span>
     </p>
 
-    <div class="cta-wrapper">
-      <button class="btn-hack" onclick="alert('Access Granted: Welcome, SAME.')">
-        Initialize Protocol
-      </button>
-    </div>
+    <button class="cta-btn" onclick="alert('Identity Verified: Swapnil. Access Granted.')">
+      Initialize System
+    </button>
 
-    <div class="grid-container">
+    <div class="features">
       <div class="card">
         <div class="card-icon">🔴</div>
-        <h3>Red Alert Status</h3>
-        <p>System monitoring active. All nodes secured with military-grade encryption. No green lights here, only red.</p>
+        <h3>Red Team Secure</h3>
+        <p>Fortified with military-grade encryption. The system is locked down and monitored 24/7.</p>
       </div>
-
       <div class="card">
-        <div class="card-icon">💀</div>
+        <div class="card-icon">👁️</div>
         <h3>Zero Trust</h3>
-        <p>Identity verified: SAME. Trust is never given, it is earned. Every packet is inspected.</p>
+        <p>Verification is absolute. Only authorized nodes can penetrate the firewall.</p>
       </div>
-
       <div class="card">
         <div class="card-icon">⚡</div>
         <h3>High Velocity</h3>
-        <p>Optimized for speed. The code runs silently, efficiently, and with absolute precision.</p>
+        <p>Optimized for speed and stealth. Silent execution, maximum impact.</p>
       </div>
     </div>
   </section>
 
   <footer>
-    &copy; 2024 SAME | The Red Protocol | System ID: 0x00000001
+    &copy; 2024 SWAPNIL | Red Protocol | ID: 0xRED001
   </footer>
 
   <script>
-    // Matrix Rain Animation (Red Version)
-    const canvas = document.getElementById('matrix');
+    // Red Matrix Rain Animation
+    const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const chars = '01SAME010101';
+    const chars = '01SWAPNIL010101';
     const fontSize = 14;
     const columns = canvas.width / fontSize;
     const drops = [];
@@ -386,7 +378,7 @@
     }
 
     function draw() {
-      // Semi-transparent black to create trail effect
+      // Faint red/black overlay for trail effect
       ctx.fillStyle = 'rgba(5, 0, 0, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -406,7 +398,6 @@
 
     setInterval(draw, 33);
 
-    // Resize handler
     window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
