@@ -2,62 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Welcome Swapnil!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAME | The Red Protocol</title>
   <style>
     /* -------------------------------------------------
-       CORE RESET & VARIABLES
+       VARIABLES & RESET
     ------------------------------------------------- */
     :root {
-      --bg-dark: #050505;
-      --bg-dark-secondary: #0a0f0d;
-      --text-main: #eaf2ff;
-      --text-muted: #94a3b8;
-      --accent-primary: #00ff41; /* Hacker Green */
-      --accent-secondary: #008f11;
-      --accent-glow: rgba(0, 255, 65, 0.4);
-      --glass-bg: rgba(16, 26, 20, 0.6);
-      --glass-border: rgba(0, 255, 65, 0.2);
+      --bg-deep: #050000;
+      --bg-panel: #0f0000;
+      --primary: #ff003c; /* Cyber Red */
+      --primary-dim: #990024;
+      --primary-glow: rgba(255, 0, 60, 0.6);
+      --text-main: #ffffff;
+      --text-muted: #a0a0a0;
       --font-mono: 'Courier New', Courier, monospace;
-      --font-sans: 'Segoe UI', system-ui, sans-serif;
+      --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    html, body {
-      height: 100%;
-      font-family: var(--font-sans);
-      background: radial-gradient(circle at center, #0a140a 0%, #000000 100%);
+    body {
+      background-color: var(--bg-deep);
       color: var(--text-main);
+      font-family: var(--font-sans);
       overflow-x: hidden;
+      line-height: 1.6;
     }
 
     /* -------------------------------------------------
-       BACKGROUND EFFECTS (MATRIX RAIN-ish)
+       BACKGROUND: RED BINARY RAIN
     ------------------------------------------------- */
-    .bg-grid {
+    .matrix-canvas {
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       z-index: -1;
-      background-image: 
-        linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
-    }
-
-    .bg-glow {
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80vw; height: 80vw;
-      background: radial-gradient(circle, rgba(0, 255, 65, 0.08) 0%, transparent 60%);
-      z-index: -1;
-      animation: pulseGlow 8s ease-in-out infinite;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+      opacity: 0.15;
+      pointer-events: none;
     }
 
     /* -------------------------------------------------
@@ -69,242 +57,360 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      position: relative;
       padding: 2rem;
       text-align: center;
-      position: relative;
     }
 
-    /* CUSTOM HACKER LOGO STYLES */
-    .logo-container {
-      width: 120px;
-      height: 120px;
+    /* THE LOGO: RED EYE / SYSTEM ICON */
+    .logo-wrapper {
+      position: relative;
+      width: 140px;
+      height: 140px;
       margin-bottom: 2rem;
-      position: relative;
-      filter: drop-shadow(0 0 15px var(--accent-glow));
-      animation: floatLogo 6s ease-in-out infinite;
-    }
-
-    @keyframes floatLogo {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(2deg); }
+      animation: pulseRed 3s infinite ease-in-out;
     }
 
     .logo-svg {
       width: 100%;
       height: 100%;
-      overflow: visible;
+      filter: drop-shadow(0 0 15px var(--primary-glow));
     }
 
-    .logo-path {
+    .logo-stroke {
       fill: none;
-      stroke: var(--accent-primary);
+      stroke: var(--primary);
       stroke-width: 3;
       stroke-linecap: round;
       stroke-linejoin: round;
       stroke-dasharray: 1000;
       stroke-dashoffset: 1000;
-      animation: drawLogo 2.5s ease-out forwards, glowPulse 3s ease-in-out infinite 2.5s;
+      animation: drawLogo 2s ease-out forwards;
     }
 
-    .logo-fill {
-      fill: var(--accent-primary);
+    .logo-core {
+      fill: var(--primary);
       opacity: 0;
-      animation: fillLogo 1s ease-out 2s forwards, glowPulse 3s ease-in-out infinite 3s;
+      animation: fadeInGlow 1s ease-out 2s forwards, pulseCore 2s infinite 2s;
     }
 
     @keyframes drawLogo {
       to { stroke-dashoffset: 0; }
     }
 
-    @keyframes fillLogo {
-      to { opacity: 0.2; }
+    @keyframes fadeInGlow {
+      to { opacity: 0.8; filter: drop-shadow(0 0 10px var(--primary)); }
     }
 
-    @keyframes glowPulse {
-      0%, 100% { filter: drop-shadow(0 0 5px var(--accent-primary)); }
-      50% { filter: drop-shadow(0 0 20px var(--accent-primary)); }
+    @keyframes pulseRed {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--primary-glow)); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 0 25px var(--primary-glow)); }
     }
 
-    /* TEXT STYLES */
-    .hero-title {
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 900;
-      letter-spacing: -2px;
-      margin-bottom: 0.5rem;
-      color: #fff;
-      text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+    @keyframes pulseCore {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; filter: drop-shadow(0 0 20px var(--primary)); }
+    }
+
+    /* TYPOGRAPHY */
+    .owner-label {
       font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--primary);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .hero-title {
+      font-size: clamp(4rem, 10vw, 8rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      color: #fff;
+      text-shadow: 0 0 20px var(--primary-glow), 0 0 40px var(--primary-dim);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .hero-title::after {
+      content: "SYSTEM: ONLINE";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--primary);
+      letter-spacing: 2px;
+      opacity: 0;
+      animation: slideUp 0.5s ease-out 1s forwards;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
     .hero-subtitle {
-      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-      color: var(--accent-primary);
-      margin-bottom: 2.5rem;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 3rem;
       font-family: var(--font-mono);
-      background: rgba(0, 255, 65, 0.1);
-      padding: 0.5rem 1.5rem;
-      border-radius: 50px;
-      border: 1px solid var(--glass-border);
+    }
+
+    /* GLITCH EFFECT ON HOVER */
+    .glitch-hover {
+      position: relative;
       display: inline-block;
-      box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+    }
+    
+    .glitch-hover:hover {
+      animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+      color: var(--primary);
     }
 
-    .cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1.2em;
-      background: var(--accent-primary);
-      animation: blink 1s step-end infinite;
-      vertical-align: middle;
-      margin-left: 5px;
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
     }
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
+    /* -------------------------------------------------
+       FEATURES GRID (GLASSMORPHISM)
+    ------------------------------------------------- */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto 4rem;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
     }
 
-    /* CARDS */
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: center;
-      margin-top: 2rem;
-      max-width: 1000px;
-      width: 100%;
-    }
-
-    .glass-card {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
+    .card {
+      background: rgba(15, 0, 0, 0.7);
+      border: 1px solid var(--primary-dim);
+      border-radius: 12px;
       padding: 2rem;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      flex: 1 1 280px;
-      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: all 0.4s ease;
       position: relative;
       overflow: hidden;
     }
 
-    .glass-card::before {
+    .card::before {
       content: "";
       position: absolute;
       top: 0; left: -100%;
       width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 60, 0.2), transparent);
       transition: 0.5s;
     }
 
-    .glass-card:hover::before {
+    .card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 30px rgba(255, 0, 60, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .card:hover::before {
       left: 100%;
     }
 
-    .glass-card:hover {
-      transform: translateY(-8px);
-      border-color: var(--accent-primary);
-      box-shadow: 0 15px 40px rgba(0, 255, 65, 0.15);
+    .card-icon {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      display: inline-block;
     }
 
-    .card-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--accent-primary);
+    .card h3 {
+      font-size: 1.5rem;
       margin-bottom: 0.8rem;
+      color: #fff;
       font-family: var(--font-mono);
     }
 
-    .card-text {
-      font-size: 1rem;
+    .card p {
       color: var(--text-muted);
-      line-height: 1.6;
+      font-size: 0.95rem;
     }
 
-    /* BUTTON */
-    .cta-btn {
-      margin-top: 3rem;
+    /* -------------------------------------------------
+       CTA BUTTON
+    ------------------------------------------------- */
+    .cta-wrapper {
+      margin-bottom: 4rem;
+    }
+
+    .btn-hack {
+      position: relative;
       padding: 1rem 3rem;
       font-size: 1.1rem;
       font-weight: 700;
       color: #000;
-      background: var(--accent-primary);
+      background: var(--primary);
       border: none;
-      border-radius: 8px;
+      border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-mono);
-      box-shadow: 0 0 20px var(--accent-glow);
-      transition: all 0.3s ease;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px var(--primary-glow);
     }
 
-    .cta-btn:hover {
+    .btn-hack:hover {
       background: #fff;
-      box-shadow: 0 0 30px #fff;
-      transform: scale(1.05);
+      box-shadow: 0 0 40px #fff;
+      color: var(--primary);
     }
 
-    /* RESPONSIVE */
+    .btn-hack::after {
+      content: ">>";
+      position: absolute;
+      right: 15px;
+      opacity: 0.5;
+      transition: 0.3s;
+    }
+
+    .btn-hack:hover::after {
+      transform: translateX(5px);
+      opacity: 1;
+    }
+
+    /* -------------------------------------------------
+       FOOTER
+    ------------------------------------------------- */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--primary-dim);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      background: #000;
+    }
+
+    /* -------------------------------------------------
+       RESPONSIVE
+    ------------------------------------------------- */
     @media (max-width: 768px) {
-      .hero-title { font-size: 3rem; }
-      .logo-container { width: 80px; height: 80px; }
+      .hero-title { font-size: 3.5rem; }
+      .grid-container { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-glow"></div>
+
+  <!-- Background Matrix Rain (Red) -->
+  <canvas class="matrix-canvas" id="matrix"></canvas>
 
   <section class="hero">
-    <!-- CUSTOM ANIMATED HACKER LOGO (SVG) -->
-    <div class="logo-container">
+    <!-- Custom Red Hacker Logo (SVG) -->
+    <div class="logo-wrapper">
       <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <!-- Outer Circle -->
-        <circle cx="50" cy="50" r="45" class="logo-path" />
-        <!-- Inner Skull/Hacker Shape -->
-        <path class="logo-path" d="M50 20 L70 35 L70 65 L50 80 L30 65 L30 35 Z" />
-        <!-- Eyes -->
-        <circle cx="42" cy="45" r="3" class="logo-fill" />
-        <circle cx="58" cy="45" r="3" class="logo-fill" />
-        <!-- Mouth (Binary) -->
-        <path class="logo-fill" d="M42 60 L58 60" />
-        <path class="logo-fill" d="M42 65 L58 65" />
+        <!-- Outer Hexagon -->
+        <path class="logo-stroke" d="M50 5 L90 25 L90 75 L50 95 L10 75 L10 25 Z" />
+        <!-- Inner Eye/Target -->
+        <circle class="logo-stroke" cx="50" cy="50" r="20" />
+        <circle class="logo-core" cx="50" cy="50" r="8" />
+        <!-- Crosshairs -->
+        <path class="logo-stroke" d="M50 10 L50 30 M50 70 L50 90 M10 50 L30 50 M70 50 L90 50" />
       </svg>
     </div>
 
-    <h1 class="hero-title">Welcome, Swapnil!</h1>
-    <div class="hero-subtitle">
-      System Access Granted<span class="cursor"></span>
+    <div class="owner-label">Owner: SAME</div>
+    <h1 class="hero-title glitch-hover">SAME</h1>
+    <p class="hero-subtitle">
+      Welcome to the Red World. <br>
+      <span style="color: var(--primary)">Unauthorized access is strictly prohibited.</span>
+    </p>
+
+    <div class="cta-wrapper">
+      <button class="btn-hack" onclick="alert('Access Granted: Welcome, SAME.')">
+        Initialize Protocol
+      </button>
     </div>
 
-    <div class="cards">
-      <div class="glass-card">
-        <div class="card-title">01. Secure</div>
-        <div class="card-text">
-          Custom-built with zero external dependencies. No broken links, just pure code.
-        </div>
+    <div class="grid-container">
+      <div class="card">
+        <div class="card-icon">🔴</div>
+        <h3>Red Alert Status</h3>
+        <p>System monitoring active. All nodes secured with military-grade encryption. No green lights here, only red.</p>
       </div>
 
-      <div class="glass-card">
-        <div class="card-title">02. Animated</div>
-        <div class="card-text">
-          The logo draws itself on load, and elements glow with a cyberpunk pulse.
-        </div>
+      <div class="card">
+        <div class="card-icon">💀</div>
+        <h3>Zero Trust</h3>
+        <p>Identity verified: SAME. Trust is never given, it is earned. Every packet is inspected.</p>
       </div>
 
-      <div class="glass-card">
-        <div class="card-title">03. Responsive</div>
-        <div class="card-text">
-          Optimized for mobile, tablet, and desktop. Looks sharp on all screens.
-        </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>High Velocity</h3>
+        <p>Optimized for speed. The code runs silently, efficiently, and with absolute precision.</p>
       </div>
     </div>
-
-    <button class="cta-btn" onclick="alert('Access Confirmed. Welcome to the network, Swapnil.')">
-      Initialize
-    </button>
   </section>
+
+  <footer>
+    &copy; 2024 SAME | The Red Protocol | System ID: 0x00000001
+  </footer>
+
+  <script>
+    // Matrix Rain Animation (Red Version)
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = '01SAME010101';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+
+    function draw() {
+      // Semi-transparent black to create trail effect
+      ctx.fillStyle = 'rgba(5, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#ff003c'; // Red text
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
