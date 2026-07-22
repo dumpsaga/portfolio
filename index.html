@@ -3,135 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nakul ❤️ Sneha</title>
+    <title>SWAPNIL | The Heist</title>
     <style>
-        /* Import a romantic font */
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap');
-
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-            font-family: 'Poppins', sans-serif;
-            overflow: hidden; /* Prevents scrollbars from falling hearts */
-            position: relative;
+        :root {
+            --neon-red: #ff3838;
+            --deep-red: #8a0e0e;
+            --hacker-green: #0f0;
+            --bg-black: #050505;
+            --terminal-bg: #0c0c0c;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--neon-red);
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Matrix Background Canvas */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        /* Main Container */
         .container {
-            text-align: center;
-            z-index: 10; /* Keeps text above the falling hearts */
-            background: rgba(255, 255, 255, 0.85);
-            padding: 40px 60px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.85);
+            border: 2px solid var(--neon-red);
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 0 20px var(--deep-red);
+            position: relative;
+            z-index: 10;
             backdrop-filter: blur(5px);
-            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            border-bottom: 1px dashed var(--neon-red);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 4rem;
-            color: #d63384;
-            margin: 0;
-            line-height: 1.2;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .heart-container {
-            margin: 30px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .heart {
-            font-size: 5rem;
-            color: #ff3366;
-            animation: pulse 1.2s infinite;
-        }
-
-        .names {
             font-size: 2.5rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 0px #000, 0 0 10px var(--neon-red);
+            margin-bottom: 0.5rem;
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-top: 10px;
+            color: #fff;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+
+        /* Terminal Content */
+        .terminal {
+            color: var(--hacker-green);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            min-height: 150px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1.2em;
+            background-color: var(--hacker-green);
+            animation: blink 1s infinite;
+            vertical-align: bottom;
+        }
+
+        /* Money Heist Elements */
+        .mask-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin: 1rem 0;
+            filter: drop-shadow(0 0 5px var(--neon-red));
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+
+        .heist-btn {
+            background: transparent;
+            border: 1px solid var(--neon-red);
+            color: var(--neon-red);
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .heist-btn:hover {
+            background: var(--neon-red);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-red);
         }
 
         /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            z-index: 20;
+            pointer-events: none;
         }
 
-        /* Falling Hearts Background */
-        .falling-heart {
-            position: absolute;
-            top: -10%;
-            color: #ff6b81;
-            font-size: 20px;
-            opacity: 0.8;
-            animation: fall linear forwards;
-            z-index: 1;
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(110vh) rotate(360deg);
-            }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .container { padding: 1.5rem; width: 95%; }
         }
     </style>
 </head>
 <body>
 
+    <div class="scanlines"></div>
+    <canvas id="matrix-canvas"></canvas>
+
     <div class="container">
-        <div class="names">Nakul <span style="color:#ff3366">❤️</span> Sneha</div>
-        <div class="heart-container">
-            <div class="heart">❤️</div>
+        <header>
+            <div class="mask-icon">🎭</div>
+            <h1>SWAPNIL</h1>
+            <div class="subtitle">LA CASA DE CODE</div>
+        </header>
+
+        <div class="terminal" id="terminal-output">
+            <!-- Text will be typed here -->
         </div>
-        <h1>Happy Valentine's Day</h1>
-        <p class="subtitle">Forever and Always</p>
+        <div class="cursor"></div>
+
+        <div class="btn-group">
+            <button class="heist-btn" onclick="runScript('access')">Access System</button>
+            <button class="heist-btn" onclick="runScript('heist')">Start Heist</button>
+        </div>
     </div>
 
     <script>
-        // JavaScript to create falling hearts
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('falling-heart');
-            heart.innerHTML = '❤️';
-            
-            // Randomize position and animation properties
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's'; // Between 2s and 5s
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px'; // Random size
-            
-            document.body.appendChild(heart);
+        // --- Matrix Rain Effect ---
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
 
-            // Remove heart after animation finishes to prevent memory leaks
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポ 10101010';
+        const characters = katakana.split('');
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for(let x = 0; x < columns; x++) {
+            drops[x] = 1;
         }
 
-        // Create a new heart every 300ms
-        setInterval(createHeart, 300);
-    </script>
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            ctx.fillStyle = '#0F0'; // Hacker Green
+            ctx.font = fontSize + 'px monospace';
+
+            for(let i = 0; i < drops.length; i++) {
+                const text = characters[Math.floor(Math.random() * characters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 30);
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // --- Typing Effect Logic ---
+        const terminal = document.getElementById('terminal-output');
+        const messages = [
+            "Initializing Swapnil Protocol...",
+            "Connecting to La Casa de Code...",
+            "Bypassing firewalls...",
+            "Access Granted. Welcome, Professor.",
+            "Target: Global Domination via Code.",
+            "Status: Ready for the heist."
+        ];
+        
+        let msgIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 100;
+
+        function typeWriter() {
+            if (msgIndex >= messages.length) {
+                msgIndex = 0; // Loop back or stop
+                return; 
+            }
+
+            const currentMsg = messages[msgIndex];
+            
+            if (isDeleting) {
+                terminal.innerHTML = currentMsg.substring(0, charIndex - 1);
+                charIndex--;
+                typeSpeed = 50; 
+            } else {
+                terminal.innerHTML = currentMsg.substring(0, charIndex + 1);
+                charIndex++;
+                typeSpeed = 100;
+            }
+
+            if (!isDeleting && charIndex === currentMsg.length) {
+                isDeleting = true;
+                typeSpeed = 2000; // Pause at end of sentence
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                msgIndex++;
+                typeSpeed = 500; // Pause before next sentence
+            }
+
+            setTimeout(typeWriter, typeSpeed);
+        }
+
+        // Start typing on load
+        window.onload = typeWriter;
+
+        // --- Button Interactions ---
+        function runScript(action) {
+            terminal.innerHTML = ""; // Clear current
+            if (action === 'access') {
+                const accessMsg = ">> Decryption key: SWAPNIL_1991\n>> System Unlock: 100%\n>> Welcome, Admin.";
+                typeCustom(accessMsg, 50);
+            } else {
+                const heistMsg = ">> Deploying Red Suits...\n>> Printing Money... (Just Kidding)\n>> Deploying Code to Production.\n>> THE HEIST IS ON.";
+                typeCustom(heistMsg, 50);
+            }
+        }
+
+        function typeCustom(text, speed) {
+            let i = 0;
+            terminal.innerHTML = "";
+            function type() {
+                if (i < text.length) {
+                    terminal.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+    </script>
 </body>
 </html>
